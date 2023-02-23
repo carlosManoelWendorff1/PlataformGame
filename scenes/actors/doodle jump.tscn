@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/actors/KinematicBody2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/platforms/platform.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/game.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 94, 10 )
+
+[node name="doodle jump" type="Node2D"]
+script = ExtResource( 3 )
+platform_scene = ExtResource( 2 )
+
+[node name="plataform_container" type="Node2D" parent="."]
+
+[node name="platform" parent="plataform_container" instance=ExtResource( 2 )]
+position = Vector2( 84, 225 )
+
+[node name="KinematicBody2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 90, 160 )
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2( 90, 160 )
+current = true
+
+[node name="platform_cleaner" type="Area2D" parent="camera"]
+position = Vector2( 0, 190 )
+
+[node name="colision" type="CollisionShape2D" parent="camera/platform_cleaner"]
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="camera/platform_cleaner" to="." method="_on_platform_cleaner_body_entered"]
